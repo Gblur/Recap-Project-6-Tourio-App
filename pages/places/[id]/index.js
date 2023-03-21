@@ -1,10 +1,10 @@
-import Link from 'next/link';
-import { useRouter } from 'next/router.js';
-import useSWR from 'swr';
-import styled from 'styled-components';
-import { StyledLink } from '../../../components/StyledLink.js';
-import { StyledButton } from '../../../components/StyledButton.js';
-import { StyledImage } from '../../../components/StyledImage.js';
+import Link from "next/link";
+import { useRouter } from "next/router.js";
+import useSWR from "swr";
+import styled from "styled-components";
+import { StyledLink } from "../../../components/StyledLink.js";
+import { StyledButton } from "../../../components/StyledButton.js";
+import { StyledImage } from "../../../components/StyledImage.js";
 
 const ImageContainer = styled.div`
   position: relative;
@@ -28,6 +28,7 @@ const StyledLocationLink = styled(StyledLink)`
   border: 3px solid lightsalmon;
 `;
 
+//delete API- Route
 export default function DetailsPage() {
   const router = useRouter();
   const { isReady } = router;
@@ -37,13 +38,22 @@ export default function DetailsPage() {
 
   if (!isReady || isLoading || error) return <h2>Loading...</h2>;
 
-  function deletePlace() {
-    console.log('deleted?');
+  async function deletePlace() {
+    // DELETE Anfrage an API
+    const response = await fetch(`/api/places/${id}`, { method: "DELETE" });
+    // Wenn löschen erfolgreich war, leite zur Startseite
+    if (response.ok) {
+      router.push("/");
+    } else {
+      // wenn ein Fehler beim Löschen auftritt, Fehlermeldung in der Console anzeigen
+      console.error("failed to delet palce");
+      // console.log('deleted?');
+    }
   }
 
   return (
     <>
-      <Link href={'/'} passHref legacyBehavior>
+      <Link href={"/"} passHref legacyBehavior>
         <StyledLink justifySelf="start">back</StyledLink>
       </Link>
       <ImageContainer>
