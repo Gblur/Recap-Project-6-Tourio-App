@@ -16,10 +16,10 @@ export default async function handler(request, response) {
       const place = new Place(placeData);
       await place.save();
 
-      response.status(201).json({ status: "Joke created" });
+      return response.status(201).json({ status: "Place created" });
     } catch (error) {
-      response.status(400).json({ error: error.message });
+      return response.status(400).json({ error: error.message });
     }
   }
-  response.status(400).json("Not found");
+  response.status(400).json("Method not allowed");
 }
